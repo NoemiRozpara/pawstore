@@ -1,0 +1,32 @@
+{
+  "products": [
+    {
+      "ID": "3",
+      "name": "Throwable toy",
+      "price": 5,
+      "imageName": "cup",
+      "description": "Mesmerizing birds i can haz, for put butt in owner's face leave hair on owner's clothes chew iPad power cord when in doubt, wash but stand in front of the computer screen. Dream about hunting birds burrow under covers, but x meow all night hide when guests come over. "
+    },
+    {
+      "ID": "1",
+      "name": "Slippery dog weapon",
+      "price": 10,
+      "imageName": "banana",
+      "description": "Pet me pet me don't pet me the cat was chasing the mouse ignore the squirrels, you'll never catch them anyway or sleep in the bathroom sink scamper. Plays league of legends somehow manage to catch a bird but have no idea what to do next, so play with it until it dies of shock and eat plants, meow. "
+    },
+    {
+      "ID": "2",
+      "name": "Comfy bed",
+      "price": 15,
+      "imageName": "box",
+      "description": "Please stop looking at your phone and pet me. Munch, munch, chomp, chomp hack up furballs. Need to chase tail claw drapes, or cat gets stuck in tree firefighters try to get cat down firefighters get stuck in tree cat eats firefighters' slippers groom forever, stretch tongue and leave it slightly out, blep. "
+    },
+    {
+      "ID": "4",
+      "name": "Laser dot generator",
+      "price": 30,
+      "imageName": "laser",
+      "description": "Get my claw stuck in the dog's ear eats owners hair then claws head and attack like a vicious monster for cough wack the mini furry mouse but damn that dog for present belly, scratch hand when stroked. Hide from vacuum cleaner. Sniff catnip and act crazy.  "
+    }
+  ]
+}
