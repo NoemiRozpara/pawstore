@@ -22,6 +22,10 @@ export default class DraggableCart extends Component {
         },
       ],
       {
+        listener: event => {
+          const { translationX, translationY } = event.nativeEvent;
+          this.props.onMove(translationX, translationY);
+        },
         useNativeDriver: true,
       }
     );
