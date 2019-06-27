@@ -1,13 +1,8 @@
 import React from 'react';
 import { SafeAreaView, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import Images from '../utils/images';
-
-import { products } from '../data/products.json';
-
 const ProductDetails = props => {
-  const item = products[0];
-  console.log(item);
+  const { item } = props;
   const image = item.imageName && Images[item.imageName];
   return item ? (
     <SafeAreaView style={{ flex: 1 }}>

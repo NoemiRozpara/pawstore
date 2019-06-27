@@ -3,7 +3,7 @@
  */
 
 import { AppRegistry } from 'react-native';
-import ProductDetails from './src/screens/ProductDetails';
+import FeaturedProducts from './src/screens/FeaturedProducts';
 import { name as appName } from './app.json';
 
-AppRegistry.registerComponent(appName, () => ProductDetails);
+AppRegistry.registerComponent(appName, () => FeaturedProducts);
