@@ -21,6 +21,7 @@ class DraggableCart extends React.Component {
       },
       onPanResponderMove: (event, gestureState) => {
         this.animatedValue.setValue({ x: gestureState.dx, y: gestureState.dy });
+        this.props.onMove && this.props.onMove(this.animatedValue.x._value, this.animatedValue.y._value);
       },
     });
   }
