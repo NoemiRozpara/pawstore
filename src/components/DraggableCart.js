@@ -33,6 +33,8 @@ class DraggableCart extends React.Component {
         useNativeDriver: true,
       }
     );
+
+    // the same as setOffset in animated
     this._translateX = this.showFeedbackOrSave(this._gestureX, this._gestureState);
     this._translateY = this.showFeedbackOrSave(this._gestureY, this._gestureState);
 
@@ -40,8 +42,9 @@ class DraggableCart extends React.Component {
     this.windowSize = Dimensions.get('window');
     this.cartSize = { width: 70, height: 70 };
 
-    // don't allow component movement outside the screen
+    // don't allow component movement outside the screen - X axis
     this.constrainedX = block([
+      // call side effect here as this value will be called from render
       call([this._translateX], translation => this.props.onMove(translation)),
       interpolate(this._translateX, {
         inputRange: [-this.windowSize.width + this.cartSize.width, 0],
@@ -49,6 +52,8 @@ class DraggableCart extends React.Component {
         extrapolate: Extrapolate.CLAMP,
       }),
     ]);
+
+    // don't allow component movement outside the screen - Y axis
     this.constrainedY = interpolate(this._translateY, {
       inputRange: [-this.windowSize.height + this.cartSize.height, 0],
       outputRange: [-this.windowSize.height + this.cartSize.height, 0],
