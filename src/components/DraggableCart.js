@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, Dimensions } from 'react-native';
 import { PanGestureHandler, ScrollView, State } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
 import shoppingCart from '../assets/icons/shoppingCart.png';
 
-const { event, Value, cond, add, multiply, eq, set } = Animated;
+const { event, Value, cond, add, multiply, eq, set, interpolate, Extrapolate } = Animated;
 
 class DraggableCart extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class DraggableCart extends React.Component {
     this._gestureState = new Value(0);
 
     // store gesture values
-    this._onGestureEvent = event(
+    this.onGestureEvent = event(
       [
         {
           nativeEvent: {
@@ -31,6 +31,22 @@ class DraggableCart extends React.Component {
     );
     this._translateX = this.showFeedbackOrSave(this._gestureX, this._gestureState);
     this._translateY = this.showFeedbackOrSave(this._gestureY, this._gestureState);
+
+    // check once, not every render
+    this.windowSize = Dimensions.get('window');
+    this.cartSize = { width: 70, height: 70 };
+
+    // don't allow component movement outside the screen
+    this.constrainedX = interpolate(this._translateX, {
+      inputRange: [-this.windowSize.width + this.cartSize.width, 0],
+      outputRange: [-this.windowSize.width + this.cartSize.width, 0],
+      extrapolate: Extrapolate.CLAMP,
+    });
+    this.constrainedY = interpolate(this._translateY, {
+      inputRange: [-this.windowSize.height + this.cartSize.height, 0],
+      outputRange: [-this.windowSize.height + this.cartSize.height, 0],
+      extrapolate: Extrapolate.CLAMP,
+    });
   }
 
   showFeedbackOrSave = (gestureTranslation, gestureState) => {
@@ -62,14 +78,13 @@ class DraggableCart extends React.Component {
 
   render() {
     return (
-      <PanGestureHandler {...this.props} onGestureEvent={this._onGestureEvent} onHandlerStateChange={this._onGestureEvent}>
+      <PanGestureHandler {...this.props} onGestureEvent={this.onGestureEvent} onHandlerStateChange={this.onGestureEvent}>
         <Animated.View
           style={[
             styles.box,
             {
-              transform: [{ translateX: this._translateX }, { translateY: this._translateY }],
+              transform: [{ translateX: this.constrainedX }, { translateY: this.constrainedY }],
             },
-            this.props.boxStyle,
           ]}
         >
           <Image source={shoppingCart} style={{ width: 26, height: 26 }} />
