@@ -1,5 +1,7 @@
 # pawstore 🐾 
   
+### ⚠ Warning! for now the repository wasn't integrated to use on Android
+
 This repository is a sample React Native app with usage of following APIs: 
 * React Navigation
 * React Native Navigation
