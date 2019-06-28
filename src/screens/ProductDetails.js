@@ -1,9 +1,11 @@
 import React from 'react';
 import { SafeAreaView, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
+import Images from '../utils/images';
+
 const ProductDetails = props => {
   const { item } = props;
-  const image = item.imageName && Images[item.imageName];
+  const image = item && item.imageName && Images[item.imageName];
   return item ? (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
