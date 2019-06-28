@@ -24,9 +24,9 @@ APIs are splitted on branches, so every branch show only neccessary changes.
 ## Usage  
 App was bootstrapped using standard `react-native init`. As `Reanimated`, `React Native Gesture Handler`, `React Navigation` and `React Native Navigation` manipulate native modules in some way, most checkouts between branches require app rebuild. So after every checkout do the following: 
 ```
-yarn // install required dependencies
-react-native link // link native modules
-react-native run-ios // rebuild app 
+yarn 
+react-native link 
+react-native run-ios 
 ```
 If you have required dependencies installed and linked and just want to run app again, use:
 ```
