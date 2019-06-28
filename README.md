@@ -18,3 +18,5 @@ APIs are splitted on branches, so every branch show only neccessary changes.
 * [animated-test](https://github.com/NoemiRozpara/pawstore/new/animated-test "animated-test") - cart performance test where side effect is called every gesture event to load JS thread
 * [reanimated](https://github.com/NoemiRozpara/pawstore/new/reanimated "reanimated") - the same component as on [animated](https://github.com/NoemiRozpara/pawstore/new/animated "animated") branch, but using React Reanimated and React Native Gesture Handler APIs
 * [reanimated-test](https://github.com/NoemiRozpara/pawstore/new/reanimated-test "reanimated-test") - the test component as on [animated-test](https://github.com/NoemiRozpara/pawstore/new/animated-test "animated-test") branch, but using React Reanimated and React Native Gesture Handler APIs
+
+
