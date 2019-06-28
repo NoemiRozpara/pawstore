@@ -1,23 +1,27 @@
 import React from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, Dimensions } from 'react-native';
 import { PanGestureHandler, ScrollView, State } from 'react-native-gesture-handler';
-import { Animated } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import shoppingCart from '../assets/icons/shoppingCart.png';
 
-export default class DraggableCart extends Component {
+const { event, Value, cond, add, multiply, eq, set, interpolate, Extrapolate } = Animated;
 
+class DraggableCart extends React.Component {
   constructor(props) {
     super(props);
-    this._translateX = new Animated.Value(0);
-    this._translateY = new Animated.Value(0);
-    this._lastOffset = { x: 0, y: 0 };
-    this._onGestureEvent = Animated.event(
+    this._gestureX = new Value(0);
+    this._gestureY = new Value(0);
+    this._gestureState = new Value(0);
+
+    // store gesture values
+    this.onGestureEvent = event(
       [
         {
           nativeEvent: {
-            translationX: this._translateX,
-            translationY: this._translateY,
+            translationX: this._gestureX,
+            translationY: this._gestureY,
+            state: this._gestureState,
           },
         },
       ],
@@ -29,35 +33,68 @@ export default class DraggableCart extends Component {
         useNativeDriver: true,
       }
     );
+    this._translateX = this.showFeedbackOrSave(this._gestureX, this._gestureState);
+    this._translateY = this.showFeedbackOrSave(this._gestureY, this._gestureState);
+
+    // check once, not every render
+    this.windowSize = Dimensions.get('window');
+    this.cartSize = { width: 70, height: 70 };
+
+    // don't allow component movement outside the screen
+    this.constrainedX = interpolate(this._translateX, {
+      inputRange: [-this.windowSize.width + this.cartSize.width, 0],
+      outputRange: [-this.windowSize.width + this.cartSize.width, 0],
+      extrapolate: Extrapolate.CLAMP,
+    });
+    this.constrainedY = interpolate(this._translateY, {
+      inputRange: [-this.windowSize.height + this.cartSize.height, 0],
+      outputRange: [-this.windowSize.height + this.cartSize.height, 0],
+      extrapolate: Extrapolate.CLAMP,
+    });
   }
 
-  _onHandlerStateChange = event => {
-    if (event.nativeEvent.oldState === State.ACTIVE) {
-      this._lastOffset.x += event.nativeEvent.translationX;
-      this._lastOffset.y += event.nativeEvent.translationY;
-      this._translateX.setOffset(this._lastOffset.x);
-      this._translateX.setValue(0);
-      this._translateY.setOffset(this._lastOffset.y);
-      this._translateY.setValue(0);
-    }
+  showFeedbackOrSave = (gestureTranslation, gestureState) => {
+    const dragging = new Value(0);
+    const start = new Value(0);
+    const position = new Value(0);
+
+    // reanimated conditional API: https://github.com/kmagiera/react-native-reanimated#cond
+    return cond(
+      // check if user is dragging
+      eq(gestureState, State.ACTIVE),
+      //if true
+      [
+        // if dragging flag not set yet
+        cond(
+          dragging,
+          0,
+          // set dragging and set start position from stored position
+          [set(dragging, 1), set(start, position)]
+        ),
+        // add current gesture translation to position
+        set(position, add(start, gestureTranslation)),
+      ],
+
+      // if false turn off dragging flag and store position
+      [set(dragging, 0), position]
+    );
   };
 
   render() {
-    return(
-      <PanGestureHandler {...this.props} onGestureEvent={this._onGestureEvent} onHandlerStateChange={this._onHandlerStateChange}>
+    return (
+      <PanGestureHandler {...this.props} onGestureEvent={this.onGestureEvent} onHandlerStateChange={this.onGestureEvent}>
         <Animated.View
           style={[
             styles.box,
             {
-              transform: [{ translateX: this._translateX }, { translateY: this._translateY }],
+              transform: [{ translateX: this.constrainedX }, { translateY: this.constrainedY }],
             },
-            this.props.boxStyle,
           ]}
         >
           <Image source={shoppingCart} style={{ width: 26, height: 26 }} />
         </Animated.View>
       </PanGestureHandler>
-    )
+    );
   }
 }
 
