@@ -6,6 +6,8 @@ This repository is a sample React Native app with usage of following APIs:
 * React Animated
 * React Reanimated  
 
+![screenshot](https://github.com/NoemiRozpara/pawstore/blob/master/screens.png)
+
 APIs are splitted on branches, so every branch show only neccessary changes. 
 
 ## Contents: 
