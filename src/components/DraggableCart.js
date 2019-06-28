@@ -40,13 +40,13 @@ class DraggableCart extends React.Component {
 
     // don't allow component movement outside the screen
     this.constrainedX = this.animatedValue.x.interpolate({
-      inputRange: [-windowSize.width + cartSize.width, 0],
-      outputRange: [-windowSize.width + cartSize.width, 0],
+      inputRange: [-this.windowSize.width + this.cartSize.width, 0],
+      outputRange: [-this.windowSize.width + this.cartSize.width, 0],
       extrapolate: 'clamp',
     });
     this.constrainedY = this.animatedValue.y.interpolate({
-      inputRange: [-windowSize.height + cartSize.height, 0],
-      outputRange: [-windowSize.height + cartSize.height, 0],
+      inputRange: [-this.windowSize.height + this.cartSize.height, 0],
+      outputRange: [-this.windowSize.height + this.cartSize.height, 0],
       extrapolate: 'clamp',
     });
   }
