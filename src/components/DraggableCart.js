@@ -33,30 +33,31 @@ class DraggableCart extends React.Component {
         this.animatedValue.setValue({ x: gestureState.dx, y: gestureState.dy });
       },
     });
+
+    // check once, not every render
+    this.windowSize = Dimensions.get('window');
+    this.cartSize = { width: 70, height: 70 };
+
+    // don't allow component movement outside the screen
+    this.constrainedX = this.animatedValue.x.interpolate({
+      inputRange: [-windowSize.width + cartSize.width, 0],
+      outputRange: [-windowSize.width + cartSize.width, 0],
+      extrapolate: 'clamp',
+    });
+    this.constrainedY = this.animatedValue.y.interpolate({
+      inputRange: [-windowSize.height + cartSize.height, 0],
+      outputRange: [-windowSize.height + cartSize.height, 0],
+      extrapolate: 'clamp',
+    });
   }
 
   render() {
-    const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-    const cartSize = { width: 70, height: 70 };
-
-    // don't allow component movement outside the screen
-    const constrainedX = this.animatedValue.x.interpolate({
-      inputRange: [-screenWidth + cartSize.width, 0],
-      outputRange: [-screenWidth + cartSize.width, 0],
-      extrapolate: 'clamp',
-    });
-    const constrainedY = this.animatedValue.y.interpolate({
-      inputRange: [-screenHeight + cartSize.height, 0],
-      outputRange: [-screenHeight + cartSize.height, 0],
-      extrapolate: 'clamp',
-    });
-
     return (
       <Animated.View
         style={[
           styles.box,
           {
-            transform: [{ translateX: constrainedX }, { translateY: constrainedY }],
+            transform: [{ translateX: this.constrainedX }, { translateY: this.constrainedY }],
           },
         ]}
         {...this.panResponder.panHandlers}
