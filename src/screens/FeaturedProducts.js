@@ -7,19 +7,16 @@ import { products } from '../data/products.json';
 
 class FeaturedProducts extends React.Component {
   state = {
-    cartPosition: {
-      x: 0,
-      y: 0,
-    },
+    cartPositionX: 0,
     array: [1, 2, 3],
   };
 
-  updatePosition = (x, y) => {
+  updatePosition = cartPositionX => {
     let array = [];
-    for (let i = 0; i < Math.abs(x); i++) {
+    for (let i = 0; i < Math.abs(cartPositionX); i++) {
       array.push(Math.random());
     }
-    this.setState({ cartPosition: { x, y }, array });
+    this.setState({ cartPositionX, array });
   };
 
   render() {
@@ -32,9 +29,7 @@ class FeaturedProducts extends React.Component {
               <Text key={item}>ITEM {item}</Text>
             ))}
           </View>
-          <Text>
-            Gesture state is: x: {this.state.cartPosition.x}, y: {this.state.cartPosition.y}
-          </Text>
+          <Text>Gesture state X is: {this.state.cartPositionX}</Text>
           {products.map((item, index) => (
             <ProductTile key={index} item={item} onPress={() => {}} />
           ))}

@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated';
 
 import shoppingCart from '../assets/icons/shoppingCart.png';
 
-const { event, Value, cond, add, multiply, eq, set, interpolate, Extrapolate } = Animated;
+const { event, Value, cond, add, multiply, eq, set, interpolate, Extrapolate, block, call } = Animated;
 
 class DraggableCart extends React.Component {
   constructor(props) {
@@ -41,11 +41,14 @@ class DraggableCart extends React.Component {
     this.cartSize = { width: 70, height: 70 };
 
     // don't allow component movement outside the screen
-    this.constrainedX = interpolate(this._translateX, {
-      inputRange: [-this.windowSize.width + this.cartSize.width, 0],
-      outputRange: [-this.windowSize.width + this.cartSize.width, 0],
-      extrapolate: Extrapolate.CLAMP,
-    });
+    this.constrainedX = block([
+      call([this._translateX], translation => this.props.onMove(translation)),
+      interpolate(this._translateX, {
+        inputRange: [-this.windowSize.width + this.cartSize.width, 0],
+        outputRange: [-this.windowSize.width + this.cartSize.width, 0],
+        extrapolate: Extrapolate.CLAMP,
+      }),
+    ]);
     this.constrainedY = interpolate(this._translateY, {
       inputRange: [-this.windowSize.height + this.cartSize.height, 0],
       outputRange: [-this.windowSize.height + this.cartSize.height, 0],
